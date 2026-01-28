@@ -12,3 +12,59 @@ generator client {
 datasource db {
   provider = "postgresql"
 }
+
+// Resource Model
+model Resource {
+  id String @id @default(cuid())
+
+  // Basic Information
+  title String
+  url String
+  description String? @db.Text
+
+  // Categorization
+  category Category
+  type ResourceType
+  tags String[] @default([])
+
+  // AI Generated Content
+  aiSummary String? @db.Text
+  aiKeyPoints String[] @default([])
+  aiSkillLevel String? // "Beginner", "Intermediate", "Advanced"
+  aiEstimatedTime String? // "2 hours", "1 week", etc.
+
+  // User Relationship (Clerk user ID)
+  userId String
+
+  // Metadata
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Indexes for performance
+  @@index([userId])
+  @@index([category])
+  @@index([type])
+  @@index([userId, category])
+  @@index([userId, type])
+}
+
+// Category Enum - Aligned with House of Edtech domains
+enum Category {
+  AI_TOOLS
+  DATA_SCIENCE
+  STOCK_MARKET
+  PERSONAL_FINANCE
+  BUSINESS_PRODUCTIVITY
+  WEB_DEVELOPMENT
+  OTHER
+}
+
+// Resource Type Enum
+enum ResourceType {
+  VIDEO
+  ARTICLE
+  COURSE
+  BOOK
+  PODCAST
+  DOCUMENTATION
+}

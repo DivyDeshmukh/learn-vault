@@ -21,11 +21,42 @@ You can start editing the page by modifying `app/page.tsx`. The page auto-update
 This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
 
-## Supabase Configuration
+# Prisma Schema Design
 
-# Database Architecture & Connection Pooling
+## Key Decisions
 
-## Overview
+**No User Model**
+- Clerk handles all user data (auth, profile, passwords)
+- We only store `userId` string to link resources to users
+- Reduces complexity, no user management needed
+
+**Resource Model Structure**
+
+*Basic Info*: title, url, description
+*Categorization*: category enum (AI_TOOLS, DATA_SCIENCE, etc.), type enum (VIDEO, ARTICLE, etc.), tags array
+*AI Fields*: aiSummary, aiKeyPoints, aiSkillLevel, aiEstimatedTime - for AI-generated insights
+*Metadata*: userId (Clerk link), createdAt, updatedAt (auto-managed)
+
+**Indexes for Performance**
+- `@@index([userId])` - fast "get my resources"
+- `@@index([category])` - fast category filtering
+- `@@index([userId, category])` - fast combined queries
+
+**Why Enums?**
+- Ensures data consistency (no typos)
+- Type-safe in TypeScript
+- Better query performance than strings
+
+**Why String Arrays?**
+- `tags[]` - flexible user tagging
+- `aiKeyPoints[]` - multiple learning points
+- Searchable with Prisma operators
+
+# Supabase Configuration
+
+## Database Architecture & Connection Pooling
+
+# Overview
 
 LearnVault is deployed on **Vercel**, a serverless platform where each incoming request executes inside an ephemeral function. In such environments, traditional persistent database connections are inefficient and can quickly exhaust PostgreSQL’s connection limits.
 
