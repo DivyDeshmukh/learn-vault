@@ -21,6 +21,10 @@ You can start editing the page by modifying `app/page.tsx`. The page auto-update
 This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
 
+## Project Structure Decision
+
+We organized the project folders based on established best practices to keep the codebase clean, scalable, and maintainable. The `app/` directory holds UI routes and layouts, while reusable UI components live in the `components/` folder. All shared logic that is not page-specific — such as database client setup, utility functions, constants, validation schemas, and business logic — is grouped under the `lib/` folder. Within `lib/`, we further structured code into subfolders like `db/` for the Prisma singleton, `utils/` for general utilities, `constants/` for global constant values, `services/` for backend logic, and `validations/` for Zod schemas. The `prisma/` folder contains the Prisma schema and migration history, which are version-controlled. This separation of concerns enhances readability and allows team members to quickly locate and understand different parts of the system.
+
 # Prisma Schema Design
 
 ## Key Decisions
