@@ -16,6 +16,7 @@ datasource db {
   url = env("DATABASE_URL")
   directUrl = env("DIRECT_URL")
 }
+// adding urls here also as for runtime prisma client instance will take it from here because we have not added in its config with datasource property.
 
 // Resource Model
 model Resource {

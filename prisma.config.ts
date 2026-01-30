@@ -14,5 +14,5 @@ export default defineConfig({
     url: env("DATABASE_URL"),
     directUrl: env("DIRECT_URL"),
   },    
-  // CLI first reads urls from here 
+  // CLI first reads urls from here
 });

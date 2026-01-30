@@ -1,4 +1,5 @@
 import { PrismaClient } from "../generated/prisma/client";
+// for test scripts that we will run from CLI to load .env.local variables as tsx does not load them automatically it loads only .env but we want .env.local to be loaded
 import * as dotenv from "dotenv";
 dotenv.config({ path: ".env.local" });
 
