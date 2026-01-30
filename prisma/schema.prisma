@@ -9,9 +9,14 @@ generator client {
   output   = "../lib/generated/prisma"
 }
 
+// You are explicitly telling the prisma generate command to skip placing the generated client code inside the standard node_modules/.prisma/client directory. Instead, it places the code within your project structure at ../lib/generated/prisma.
+
 datasource db {
   provider = "postgresql"
+  url = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
 }
+// adding urls here also as for runtime prisma client instance will take it from here because we have not added in its config with datasource property.
 
 // Resource Model
 model Resource {
@@ -30,7 +35,7 @@ model Resource {
   // AI Generated Content
   aiSummary String? @db.Text
   aiKeyPoints String[] @default([])
-  aiSkillLevel String? // "Beginner", "Intermediate", "Advanced"
+  aiSkillLevel  String?   // "Beginner", "Intermediate", "Advanced"
   aiEstimatedTime String? // "2 hours", "1 week", etc.
 
   // User Relationship (Clerk user ID)
@@ -48,7 +53,7 @@ model Resource {
   @@index([userId, type])
 }
 
-// Category Enum - Aligned with House of Edtech domains
+// Category Enum
 enum Category {
   AI_TOOLS
   DATA_SCIENCE
@@ -63,7 +68,6 @@ enum Category {
 enum ResourceType {
   VIDEO
   ARTICLE
-  COURSE
   BOOK
   PODCAST
   DOCUMENTATION
